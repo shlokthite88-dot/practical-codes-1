@@ -1,0 +1,19 @@
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, f_regression
+
+data = pd.read_csv("stock_data (4).csv") 
+
+X = data.drop("Close", axis=1)   
+y = data["Close"]                
+
+
+selector = SelectKBest(score_func=f_regression, k=5)
+
+
+X_new = selector.fit_transform(X, y)
+
+
+selected_features = X.columns[selector.get_support()]
+
+
+print("Selected Features:", list(selected_features))
