@@ -1,0 +1,45 @@
+practical 1- 
+import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+
+data = {
+    "message": [
+        "Win a free lottery now",
+        "Hello how are you",
+        "Limited offer 50% buy today",
+        "Meeting at 3 pm",
+        "Claim your free reward",
+        "Project discussion tomorrow",
+        "Congratulations you won a 200000 prize",
+        "Urgent! Your account has been selected",
+        "Free 10000 gift card waiting for you",
+        "Let's have lunch today",
+        "Can you send the report",
+        "Reminder for tomorrow's class",
+        "Exclusive deal only for you",
+        "Click here to claim your bonus",
+        "Team meeting scheduled at 10 am"
+    ],
+    "label": [
+        "spam","ham","spam","ham","spam","ham",
+        "spam","spam","spam",
+        "ham","ham","ham",
+        "spam","spam","ham"
+    ]
+}
+
+df = pd.DataFrame(data)
+print(df)
+
+vectorizer = TfidfVectorizer(stop_words="english")
+x = vectorizer.fit_transform(df["message"])
+y = df["label"]
+
+model = MultinomialNB()
+model.fit(x, y)
+
+new_email = ["Congratulations you won free cash"]
+new_vector = vectorizer.transform(new_email)
+prediction = model.predict(new_vector)
+print("\n Predicted Email Type:", prediction[0])
